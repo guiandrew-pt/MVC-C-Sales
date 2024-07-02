@@ -15,4 +15,4 @@ namespace SalesWebMvc.Models
 
         public DbSet<SalesWebMvc.Models.Department> Department { get; set; } = default!;
     }
-}
+} // Add-Migration Initial
