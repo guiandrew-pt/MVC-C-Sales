@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
+using SalesWebMvc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext");
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<SalesWebMvcContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SeedingService>();
+builder.Services.AddScoped<SellerService>();
 
 var app = builder.Build();
 
@@ -22,9 +24,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-// Will access the service method Seed:
-app.Services.CreateScope().ServiceProvider.GetRequiredService<SeedingService>().Seed();
+else
+{
+    // Will access the service method Seed:
+    app.Services.CreateScope().ServiceProvider.GetRequiredService<SeedingService>().Seed();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
