@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
 using SalesWebMvc.Services;
+using SalesWebMvc.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext");
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<SalesWebMvcContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SeedingService>();
-builder.Services.AddScoped<SellerService>();
+builder.Services.AddScoped<ISellerService, SellerService>();
 
 var app = builder.Build();
 
