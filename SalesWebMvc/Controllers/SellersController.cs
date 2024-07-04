@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
+using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
 using SalesWebMvc.Services.Interfaces;
 
@@ -14,10 +15,12 @@ namespace SalesWebMvc.Controllers
     public class SellersController : Controller
     {
         private readonly ISellerService _sellerService;
+        private readonly IDepartmentService _departmentService;
 
-        public SellersController(ISellerService sellerService)
+        public SellersController(ISellerService sellerService, IDepartmentService departmentService)
         {
             _sellerService = sellerService;
+            _departmentService = departmentService;
         }
 
         // GET: /<controller>/
@@ -31,7 +34,11 @@ namespace SalesWebMvc.Controllers
         // GET: Departments/Create
         public IActionResult Create()
         {
-            return View();
+            // Will populate the dropdown with the data from DepartmentService:
+            List<Department> departments = _departmentService.FindAll();
+            SellerFormViewModel viewModel = new SellerFormViewModel { Departments = departments };
+
+            return View(viewModel);
         }
 
         // POST: Departments/Create
