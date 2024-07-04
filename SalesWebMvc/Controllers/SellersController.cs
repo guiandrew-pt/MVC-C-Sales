@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Models;
 using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
@@ -53,6 +54,34 @@ namespace SalesWebMvc.Controllers
             }
 
             return View(seller);
+        }
+
+        // GET: Departments/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Seller? seller = _sellerService.FindById(id.Value);
+
+            if (seller == null)
+            {
+                return NotFound();
+            }
+
+            return View(seller);
+        }
+
+        // POST: Departments/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
