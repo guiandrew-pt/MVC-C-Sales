@@ -67,18 +67,20 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _sellerService.Insert(seller);
-                return RedirectToAction(nameof(Index));
+                List<Department>? departments = _departmentService.FindAll();
+                SellerFormViewModel sellerFormViewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(sellerFormViewModel);
             }
 
-            return View(seller);
+            _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Departments/Edit/5
         public IActionResult Edit(int? id)
-        {
+        {            
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
@@ -102,6 +104,12 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                List<Department>? departments = _departmentService.FindAll();
+                SellerFormViewModel sellerFormViewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(sellerFormViewModel);
+            }
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
