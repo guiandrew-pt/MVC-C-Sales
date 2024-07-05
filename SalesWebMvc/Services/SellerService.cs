@@ -14,26 +14,27 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller seller)
+        public async Task InsertAsync(Seller seller)
         {
             _context.Add(seller);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Seller FindById(int id)
+        public async Task<Seller> FindByIdAsync(int id)
         {
-            return _context.Seller.Include(seller => seller.Department)
-                .FirstOrDefault(seller => seller.Id == id);
+            return await _context.Seller.Include(seller => seller.Department)
+                .FirstOrDefaultAsync(seller => seller.Id == id);
         }
 
-        public void Update(Seller seller)
+        public async Task UpdateAsync(Seller seller)
         {
-            if (!_context.Seller.Any(s => s.Id == seller.Id))
+            bool hasAny = await _context.Seller.AnyAsync(s => s.Id == seller.Id);
+            if (!hasAny)
             {
                 throw new NotFoundException("Id not found!");
             }
@@ -41,7 +42,7 @@ namespace SalesWebMvc.Services
             try
             {
                 _context.Update(seller);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbConcurrencyException ex)
             {
@@ -49,11 +50,11 @@ namespace SalesWebMvc.Services
             }
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            Seller? seller = _context.Seller.Find(id);
+            Seller? seller = await _context.Seller.FindAsync(id);
             _context.Seller.Remove(seller);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
