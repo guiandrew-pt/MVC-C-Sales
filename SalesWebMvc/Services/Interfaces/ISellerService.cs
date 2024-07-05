@@ -11,6 +11,8 @@ namespace SalesWebMvc.Services.Interfaces
         public Seller FindById(int id);
 
         public void Remove(int id);
+
+        public void Update(Seller seller);
     }
 }
 
