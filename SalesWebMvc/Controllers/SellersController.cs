@@ -65,7 +65,7 @@ namespace SalesWebMvc.Controllers
         // POST: Departments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id", "Name", "Email", "BirthDate", "BaseSalary", "Department")] Seller seller)
+        public async Task<IActionResult> Create([Bind("Id", "Name", "Email", "BirthDate", "BaseSalary", "DepartmentId")] Seller seller)
         {
             if (!ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace SalesWebMvc.Controllers
         // POST: Departments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id", "Name", "Email", "BirthDate", "BaseSalary", "Department")] Seller seller)
+        public async Task<IActionResult> Edit(int id, [Bind("Id", "Name", "Email", "BirthDate", "BaseSalary", "DepartmentId")] Seller seller)
         {
             if (!ModelState.IsValid)
             {
