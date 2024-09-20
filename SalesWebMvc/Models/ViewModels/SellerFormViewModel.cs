@@ -1,6 +1,6 @@
 ﻿namespace SalesWebMvc.Models.ViewModels
 {
-	public class SellerFormViewModel
+	public struct SellerFormViewModel
 	{
 		public Seller? Seller { get; set; }
 		public ICollection<Department>? Departments { get; set; }

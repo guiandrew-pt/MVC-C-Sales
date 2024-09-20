@@ -1,6 +1,6 @@
 ﻿namespace SalesWebMvc.Models.ViewModels;
 
-public class ErrorViewModel
+public struct ErrorViewModel
 {
     public string? RequestId { get; set; }
     public string? Message { get; set; }
